@@ -9,7 +9,10 @@ const appDir = path.resolve(__dirname, '..')
 const backendDir = path.join(appDir, 'backend-rs')
 const tauriDir = path.join(appDir, 'src-tauri')
 const binariesDir = path.join(tauriDir, 'binaries')
-const devExeDir = path.join(tauriDir, 'target', 'debug')
+const targetDir = process.env.CARGO_TARGET_DIR
+  ? path.resolve(process.env.CARGO_TARGET_DIR)
+  : path.join(tauriDir, 'target')
+const devExeDir = path.join(targetDir, 'debug')
 const sidecarBase = 'clipboard-history-backend'
 
 const args = new Set(process.argv.slice(2))
@@ -67,7 +70,10 @@ async function main() {
   await fs.mkdir(binariesDir, { recursive: true })
   await run('cargo', cargoArgs, { cwd: appDir })
 
-  const source = path.join(backendDir, 'target', profile, builtBinaryName())
+  const backendTargetDir = process.env.CARGO_TARGET_DIR
+    ? path.resolve(process.env.CARGO_TARGET_DIR)
+    : path.join(backendDir, 'target')
+  const source = path.join(backendTargetDir, profile, builtBinaryName())
   const output = path.join(binariesDir, sidecarName(tuple))
   await fs.copyFile(source, output)
 
