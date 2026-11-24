@@ -4,9 +4,9 @@
   "version": "1.0.13",
   "identifier": "com.fastwindow.clipboardhistory.dev",
   "build": {
-    "beforeDevCommand": "pnpm build:backend:dev && pnpm build:resources && pnpm dev",
+    "beforeDevCommand": "npm run build:backend:dev && npm run build:resources && npm run dev",
     "devUrl": "http://127.0.0.1:1433",
-    "beforeBuildCommand": "pnpm build:backend:dev && vite build && pnpm build:resources",
+    "beforeBuildCommand": "npm run build:backend:dev && vite build && npm run build:resources",
     "frontendDist": "../dist"
   },
   "app": {
