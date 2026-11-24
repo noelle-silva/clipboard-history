@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appDir = path.resolve(__dirname, '..')
+const targetDir = process.env.CARGO_TARGET_DIR
+  ? path.resolve(process.env.CARGO_TARGET_DIR)
+  : path.join(appDir, 'src-tauri', 'target')
 
 async function copyAssets(target) {
   await fs.rm(path.join(target, 'assets'), { recursive: true, force: true })
@@ -15,5 +18,5 @@ async function copyResources(target) {
   await copyAssets(target)
 }
 
-await copyResources(path.join(appDir, 'src-tauri', 'target', 'debug'))
-await copyResources(path.join(appDir, 'src-tauri', 'target', 'resources'))
+await copyResources(path.join(targetDir, 'debug'))
+await copyResources(path.join(targetDir, 'resources'))
